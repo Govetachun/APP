@@ -1,0 +1,7 @@
+MCP,status,count
+MCP 1,Full,4
+MCP 1,Available,16
+MCP 2,Full,5
+MCP 2,Available,15
+MCP 3,Full,19
+MCP 3,Available,1
