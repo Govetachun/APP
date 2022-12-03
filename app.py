@@ -70,25 +70,7 @@ if choice == "Dashboard":
             fig3 = px.bar(cap,x="MCP",y="count",color="status")
             st.write(fig3)
         with column3:
-            df1 = pd.DataFrame()
-            fig2 = ff.create_table(df1)
-            st.write("Workshift today")
-            teams=['Morning']
-            y1 = [df['Collectors'].values[0]]
-            y2 = [df['Janitors'].values[0]]
-            trace1 = go.Bar(x=teams, y=y1, xaxis='x2', yaxis='y2',
-                    marker=dict(color='#0099ff'),
-                    name='Collectors')
-            trace2 = go.Bar(x=teams, y=y2, xaxis='x2', yaxis='y2',
-                    marker=dict(color='#404040'),
-                    name='Janitors')
-            fig2.add_traces([trace1, trace2])
-            fig2['layout']['xaxis2'] = {}
-            fig2['layout']['yaxis2'] = {}
-            fig2.layout.yaxis2.update({'anchor': 'x2'})
-            fig2.layout.xaxis2.update({'anchor': 'y2'})
-            fig2.layout.yaxis2.update({'title': 'people'})
-
+            fig2 = go.Figure([go.Bar(x=['Collectors','Janitors'], y=[df['Collectors'].values[0], df['Janitors'].values[0]])])
             st.write(fig2)
 
 
@@ -121,25 +103,7 @@ if choice == "Dashboard":
             fig3 = px.bar(cap,x="MCP",y="count",color="status")
             st.write(fig3)
         with column8:
-            df1 = pd.DataFrame()
-            fig2 = ff.create_table(df1)
-            st.write("Workshift today")
-            teams=['Afternoon']
-            y1 = [df['Collectors'].values[0]]
-            y2 = [df['Janitors'].values[0]]
-            trace1 = go.Bar(x=teams, y=y1, xaxis='x2', yaxis='y2',
-                    marker=dict(color='#0099ff'),
-                    name='Collectors')
-            trace2 = go.Bar(x=teams, y=y2, xaxis='x2', yaxis='y2',
-                    marker=dict(color='#404040'),
-                    name='Janitors')
-            fig2.add_traces([trace1, trace2])
-            fig2['layout']['xaxis2'] = {}
-            fig2['layout']['yaxis2'] = {}
-            fig2.layout.yaxis2.update({'anchor': 'x2'})
-            fig2.layout.xaxis2.update({'anchor': 'y2'})
-            fig2.layout.yaxis2.update({'title': 'people'})
-
+            fig2 = go.Figure([go.Bar(x=['Collectors','Janitors'], y=[df['Collectors'].values[1], df['Janitors'].values[1]])])
             st.write(fig2)
 
 
@@ -171,25 +135,7 @@ if choice == "Dashboard":
             fig3 = px.bar(cap,x="MCP",y="count",color="status")
             st.write(fig3)
         with column13:
-            df1 = pd.DataFrame()
-            fig2 = ff.create_table(df1)
-            st.write("Workshift today")
-            teams=['Evening']
-            y1 = [df['Collectors'].values[0]]
-            y2 = [df['Janitors'].values[0]]
-            trace1 = go.Bar(x=teams, y=y1, xaxis='x2', yaxis='y2',
-                    marker=dict(color='#0099ff'),
-                    name='Collectors')
-            trace2 = go.Bar(x=teams, y=y2, xaxis='x2', yaxis='y2',
-                    marker=dict(color='#404040'),
-                    name='Janitors')
-            fig2.add_traces([trace1, trace2])
-            fig2['layout']['xaxis2'] = {}
-            fig2['layout']['yaxis2'] = {}
-            fig2.layout.yaxis2.update({'anchor': 'x2'})
-            fig2.layout.xaxis2.update({'anchor': 'y2'})
-            fig2.layout.yaxis2.update({'title': 'people'})
-
+            fig2 = go.Figure([go.Bar(x=['Collectors','Janitors'], y=[df['Collectors'].values[2], df['Janitors'].values[2]])])
             st.write(fig2)
 
 
