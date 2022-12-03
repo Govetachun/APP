@@ -37,9 +37,9 @@ if os.path.exists('./MCP_assigning.csv'):
 
 with st.sidebar: 
     st.image("https://www.onepointltd.com/wp-content/uploads/2020/03/inno2.png")
-    st.title("UWC for task assignment")
+    st.title("Urban waste collection aid - UWC 2.0")
     choice = st.radio("Navigation", ["Dashboard","Calendar", "Vehicles","MCP","Tasks Assignment","Routes Planning"])
-    st.info("UWC")
+    st.info("UWC 2.0")
 
 # if choice == "Upload":
 #     st.title("Upload Your Dataset")
