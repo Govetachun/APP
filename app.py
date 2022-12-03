@@ -9,7 +9,7 @@ import plotly.graph_objects as go
 import plotly.figure_factory as ff
 import graphviz
 st.set_page_config(
-page_title = "Real-Time Data Dashboard",
+page_title = "Urban waste collection aid - UWC 2.0",
 page_icon = "Active",
 layout = "wide",
 initial_sidebar_state='expanded',
