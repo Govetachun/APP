@@ -8,9 +8,6 @@ import plotly.express as px
 import plotly.graph_objects as go
 import plotly.figure_factory as ff
 import graphviz
-import time
-from streamlit_chat import message
-import requests
 st.set_page_config(
 page_title = "Real-Time Data Dashboard",
 page_icon = "Active",
@@ -37,21 +34,22 @@ if os.path.exists('./vehicle_assigning.csv'):
     vehicle_assigning = pd.read_csv('vehicle_assigning.csv', index_col=None)
 if os.path.exists('./MCP_assigning.csv'): 
     MCP_assigning = pd.read_csv('MCP_assigning.csv', index_col=None)
+
 with st.sidebar: 
     st.image("https://www.onepointltd.com/wp-content/uploads/2020/03/inno2.png")
     st.title("UWC for task assignment")
-    choice = st.radio("Navigation", ["Upload","Dashboard","Calendar", "Vehicles","MCP","Tasks Assignment","Routes Planning"])
+    choice = st.radio("Navigation", ["Dashboard","Calendar", "Vehicles","MCP","Tasks Assignment","Routes Planning"])
     st.info("UWC")
 
-if choice == "Upload":
-    st.title("Upload Your Dataset")
-    file = st.file_uploader("Upload Your Dataset")
-    if file: 
-        df = pd.read_csv(file, index_col=None)
-        df.to_csv('dataset.csv', index=None)
-        st.dataframe(df)
+# if choice == "Upload":
+#     st.title("Upload Your Dataset")
+#     file = st.file_uploader("Upload Your Dataset")
+#     if file: 
+#         df = pd.read_csv(file, index_col=None)
+#         df.to_csv('dataset.csv', index=None)
+#         st.dataframe(df)
 
-elif choice == "Dashboard":
+if choice == "Dashboard":
     st.title("Dashboard for the work day")
     col1, col2, col3 = st.tabs(['Morning','Afternoon','Evening'])
     # Pie chart, where the slices will be ordered and plotted counter-clockwise:
@@ -106,79 +104,106 @@ elif choice == "Dashboard":
             fig5 = ff.create_table(wsh)
             st.write(fig5)
             
-
-
     with col2:
-        st.info("Current status of garbage trucks in Afternoon")
-        st.title("Vehicle status")
-        colors = ['red', 'green', 'blue']
-        value = df[:3].values[1]
-        fig = go.Figure(data=[go.Pie(labels=['In use','In use','Available','In maintenance'], values=value)])
-        fig.update_traces(hoverinfo='label+percent', textinfo='label+value', textfont_size=15,
-                    marker=dict(colors=colors, line=dict(color='#000000', width=3)))
+        st.markdown("### Current status of garbage trucks in Afternoon")
+        column6,column7,column8=st.columns(3)
+        with column6:
+            st.write('The vehicles status available')
+            colors = ['lightgreen', 'royalblue', 'gold']
+            value = df[:3].values[1]
+            fig = go.Figure(data=[go.Pie(labels=['In use','In use','Available','In maintenance'], values=value,title="Vehicles")])
+            fig.update_traces(hoverinfo='label+percent', textinfo='label+value', textfont_size=15,
+                        marker=dict(colors=colors, line=dict(color='#000000', width=3)))
 
-        st.write(fig)
-        df1 = pd.DataFrame()
-        fig2 = ff.create_table(df1)
-        teams=['Afternoon']
-        y1 = [df['Collectors'].values[1]]
-        y2 = [df['Janitors'].values[1]]
-        trace1 = go.Bar(x=teams, y=y1, xaxis='x2', yaxis='y2',
-                marker=dict(color='#0099ff'),
-                name='Collectors')
-        trace2 = go.Bar(x=teams, y=y2, xaxis='x2', yaxis='y2',
-                marker=dict(color='#404040'),
-                name='Janitors')
-        fig2.add_traces([trace1, trace2])
-        fig2['layout']['xaxis2'] = {}
-        fig2['layout']['yaxis2'] = {}
-        fig2.layout.yaxis2.update({'anchor': 'x2'})
-        fig2.layout.xaxis2.update({'anchor': 'y2'})
-        fig2.layout.yaxis2.update({'title': 'people'})
+            st.write(fig)
+        with column7:
+            st.write("MCPs list status in Afternoon")
+            fig3 = px.bar(cap,x="MCP",y="count",color="status")
+            st.write(fig3)
+        with column8:
+            df1 = pd.DataFrame()
+            fig2 = ff.create_table(df1)
+            st.write("Workshift today")
+            teams=['Afternoon']
+            y1 = [df['Collectors'].values[0]]
+            y2 = [df['Janitors'].values[0]]
+            trace1 = go.Bar(x=teams, y=y1, xaxis='x2', yaxis='y2',
+                    marker=dict(color='#0099ff'),
+                    name='Collectors')
+            trace2 = go.Bar(x=teams, y=y2, xaxis='x2', yaxis='y2',
+                    marker=dict(color='#404040'),
+                    name='Janitors')
+            fig2.add_traces([trace1, trace2])
+            fig2['layout']['xaxis2'] = {}
+            fig2['layout']['yaxis2'] = {}
+            fig2.layout.yaxis2.update({'anchor': 'x2'})
+            fig2.layout.xaxis2.update({'anchor': 'y2'})
+            fig2.layout.yaxis2.update({'title': 'people'})
 
-        st.write(fig2)
+            st.write(fig2)
 
-        st.info("Assignment")
-        st.dataframe(wsh)
-        
-        st.info("MCPs list")
-        fig3 = px.bar(cap,x="MCP",y="count",color="status", title="MCPs list status in Afternoon")
-        st.write(fig3)
+
+        column9,column10= st.columns((3,7))
+        with column9:
+            st.markdown("### Vehicle status")
+
+            def highlight_survived(s):
+                return ['background-color: green']*len(s) if s.Available else ['background-color: red']*len(s)
+            st.dataframe(vehicle.style.apply(highlight_survived, axis=1))
+        with column10:
+            st.markdown("### Assignment")
+            fig5 = ff.create_table(wsh)
+            st.write(fig5)
     with col3:
-        st.info("Current status of garbage trucks in Evening")
-        colors = ['lightgreen','goldenrod',"magenta"]
-        value = df[:3].values[2]
-        fig = go.Figure(data=[go.Pie(labels=['In use','In use','Available','In maintenance'], values=value)])
-        fig.update_traces(hoverinfo='label+percent', textinfo='label+value', textfont_size=15,
-                    marker=dict(colors=colors, line=dict(color='#000000', width=3)))
+        st.markdown("### Current status of garbage trucks in Evening")
+        column11,column12,column13=st.columns(3)
+        with column11:
+            st.write('The vehicles status available')
+            colors = ['rgb(175, 49, 35)', 'darkorange', 'lightgreen']
+            value = df[:3].values[2]
+            fig = go.Figure(data=[go.Pie(labels=['In use','In use','Available','In maintenance'], values=value,title="Vehicles")])
+            fig.update_traces(hoverinfo='label+percent', textinfo='label+value', textfont_size=15,
+                        marker=dict(colors=colors, line=dict(color='#000000', width=3)))
 
-        st.write(fig)
-        df1 = pd.DataFrame()
-        fig2 = ff.create_table(df1)
-        teams=['Evening']
-        y1 = [df['Collectors'].values[2]]
-        y2 = [df['Janitors'].values[2]]
-        trace1 = go.Bar(x=teams, y=y1, xaxis='x2', yaxis='y2',
-                marker=dict(color='#0099ff'),
-                name='Collectors')
-        trace2 = go.Bar(x=teams, y=y2, xaxis='x2', yaxis='y2',
-                marker=dict(color='#404040'),
-                name='Janitors')
-        fig2.add_traces([trace1, trace2])
-        fig2['layout']['xaxis2'] = {}
-        fig2['layout']['yaxis2'] = {}
-        fig2.layout.yaxis2.update({'anchor': 'x2'})
-        fig2.layout.xaxis2.update({'anchor': 'y2'})
-        fig2.layout.yaxis2.update({'title': 'people'})
+            st.write(fig)
+        with column12:
+            st.write("MCPs list status in Evening")
+            fig3 = px.bar(cap,x="MCP",y="count",color="status")
+            st.write(fig3)
+        with column13:
+            df1 = pd.DataFrame()
+            fig2 = ff.create_table(df1)
+            st.write("Workshift today")
+            teams=['Evening']
+            y1 = [df['Collectors'].values[0]]
+            y2 = [df['Janitors'].values[0]]
+            trace1 = go.Bar(x=teams, y=y1, xaxis='x2', yaxis='y2',
+                    marker=dict(color='#0099ff'),
+                    name='Collectors')
+            trace2 = go.Bar(x=teams, y=y2, xaxis='x2', yaxis='y2',
+                    marker=dict(color='#404040'),
+                    name='Janitors')
+            fig2.add_traces([trace1, trace2])
+            fig2['layout']['xaxis2'] = {}
+            fig2['layout']['yaxis2'] = {}
+            fig2.layout.yaxis2.update({'anchor': 'x2'})
+            fig2.layout.xaxis2.update({'anchor': 'y2'})
+            fig2.layout.yaxis2.update({'title': 'people'})
 
-        st.write(fig2)
+            st.write(fig2)
 
-        st.info("Assignment")
-        st.dataframe(wsh)
-        
-        st.info("MCPs list")
-        fig3 = px.bar(cap,x="MCP",y="count",color="status", title="MCPs list status in Evening")
-        st.write(fig3)
+
+        column14,column15= st.columns((3,7))
+        with column14:
+            st.markdown("### Vehicle status")
+
+            def highlight_survived(s):
+                return ['background-color: green']*len(s) if s.Available else ['background-color: red']*len(s)
+            st.dataframe(vehicle.style.apply(highlight_survived, axis=1))
+        with column15:
+            st.markdown("### Assignment")
+            fig5 = ff.create_table(wsh)
+            st.write(fig5)
     st.title("Route information")
     col4, col5, col6 ,col7= st.columns(4)
     with col4:
@@ -279,3 +304,228 @@ elif choice == "Tasks Assignment":
     with col2:
         st.markdown('### MCPs assigning')
         st.dataframe(MCP_assigning)
+elif choice == "Calendar":
+
+
+    to_do_monday = pd.read_csv('monday.csv',index_col=None)
+    to_do_tuesday = pd.read_csv('tuesday.csv',index_col=None)
+    to_do_wednesday = pd.read_csv('wednesday.csv',index_col=None)
+    to_do_thursday = pd.read_csv('thursday.csv',index_col=None)
+    to_do_friday = pd.read_csv('friday.csv',index_col=None)
+    col1,col2,col3,col4,col5 = st.columns(5)
+    if "visibility" not in st.session_state:
+        st.session_state.visibility = "visible"
+        st.session_state.disabled = False
+    with col1:
+        st.markdown("### Monday 🐷")
+        st.markdown("""---""")
+        st.write("To do |",len(to_do_monday.index)," tasks")
+
+
+        with st.expander("Add task"):
+                text_input = st.text_input(
+                        "Enter your Monday task here 👇",
+                        label_visibility=st.session_state.visibility,
+                        disabled=st.session_state.disabled
+                    )
+                if text_input:
+                    to_do_monday = pd.read_csv('monday.csv',index_col=None)
+                    st.write("You entered: ", text_input)
+                    # to_do_monday.loc[len(to_do_monday.index)] = [text_input]
+                    append = {'Todo':text_input}
+                    to_do_monday = to_do_monday.append(append,ignore_index=True)
+                    to_do_monday.to_csv('monday.csv',index=None)
+                st.write("Remember to delete the placeholder before delete task")
+
+        with st.expander("Remove task"):
+                st.markdown("##### Double-Click the task to remove it from the to do list")
+                button_day = [None] * len(to_do_monday.index)
+                for i in range(0,len(to_do_monday.index)):
+                    button_day[i] = st.button("Task " +str(i)+ " "+ to_do_monday['Todo'].values[i])
+                for i in range(0,len(to_do_monday.index)):
+                    if button_day[i]:
+                        to_do_monday= to_do_monday.drop(i)
+                        to_do_monday.to_csv('monday.csv',index=None)
+                
+        st.dataframe(to_do_monday)
+    with col2:
+        st.markdown("### Tuesday 🐑")
+        st.markdown("""---""")
+        st.write("To do |",len(to_do_tuesday.index)," tasks")
+
+        with st.expander("Add task"):
+                text_input3 = st.text_input(
+                        "Enter your Tuesday task here 👇",
+                        label_visibility=st.session_state.visibility,
+                        disabled=st.session_state.disabled
+                    )
+                if text_input3:
+                    to_do_tuesday = pd.read_csv('tuesday.csv',index_col=None)
+                    st.write("You entered: ", text_input3)
+                    # to_do_monday.loc[len(to_do_monday.index)] = [text_input]
+                    append = {'Todo':text_input3}
+                    to_do_tuesday = to_do_tuesday.append(append,ignore_index=True)
+                    to_do_tuesday.to_csv('tuesday.csv',index=None)
+                st.write("Remember to delete the placeholder before delete task")
+
+        with st.expander("Remove task"):
+                st.markdown("##### Double-Click the task to remove it from the to do list")
+                button_dayTues = [None] * len(to_do_tuesday.index)
+                for i in range(0,len(to_do_tuesday.index)):
+                    button_dayTues[i] = st.button("Task " +str(i)+ " "+ to_do_tuesday['Todo'].values[i])
+                for i in range(0,len(to_do_tuesday.index)):
+                    if button_dayTues[i]:
+                        to_do_tuesday= to_do_tuesday.drop(i)
+                        to_do_tuesday.to_csv('tuesday.csv',index=None)
+                
+        st.dataframe(to_do_tuesday)
+    with col3:
+        st.markdown("### Wednesday 🍮")
+        st.markdown("""---""")
+        st.write("To do |",len(to_do_wednesday.index)," tasks")
+
+        with st.expander("Add task"):
+                text_input3 = st.text_input(
+                        "Enter your wednesday task here 👇",
+                        label_visibility=st.session_state.visibility,
+                        disabled=st.session_state.disabled
+                    )
+                if text_input3:
+                    to_do_wednesday = pd.read_csv('wednesday.csv',index_col=None)
+                    st.write("You entered: ", text_input3)
+                    # to_do_monday.loc[len(to_do_monday.index)] = [text_input]
+                    append = {'Todo':text_input3}
+                    to_do_wednesday = to_do_wednesday.append(append,ignore_index=True)
+                    to_do_wednesday.to_csv('wednesday.csv',index=None)
+                st.write("Remember to delete the placeholder before delete task")
+
+        with st.expander("Remove task"):
+                st.markdown("##### Double-Click the task to remove it from the to do list")
+                button_dayWeds = [None] * len(to_do_wednesday.index)
+                for i in range(0,len(to_do_wednesday.index)):
+                    button_dayWeds[i] = st.button("Task " +str(i)+ " "+ to_do_wednesday['Todo'].values[i])
+                for i in range(0,len(to_do_wednesday.index)):
+                    if button_dayWeds[i]:
+                        to_do_wednesday= to_do_wednesday.drop(i)
+                        to_do_wednesday.to_csv('wednesday.csv',index=None)
+                
+        st.dataframe(to_do_wednesday)
+    with col4:
+        st.markdown("### Thursday 🦄")
+        st.markdown("""---""")
+        st.write("To do |",len(to_do_thursday.index)," tasks")
+
+        with st.expander("Add task"):
+                text_input4 = st.text_input(
+                        "Enter your thursday task here 👇",
+                        label_visibility=st.session_state.visibility,
+                        disabled=st.session_state.disabled
+                    )
+                if text_input4:
+                    to_do_thursday = pd.read_csv('thursday.csv',index_col=None)
+                    st.write("You entered: ", text_input4)
+                    # to_do_monday.loc[len(to_do_monday.index)] = [text_input]
+                    append = {'Todo':text_input4}
+                    to_do_thursday = to_do_thursday.append(append,ignore_index=True)
+                    to_do_thursday.to_csv('thursday.csv',index=None)
+                st.write("Remember to delete the placeholder before delete task")
+
+        with st.expander("Remove task"):
+                st.markdown("##### Double-Click the task to remove it from the to do list")
+                button_dayThur = [None] * len(to_do_thursday.index)
+                for i in range(0,len(to_do_thursday.index)):
+                    button_dayThur[i] = st.button("Tasks " +str(i)+ " "+ to_do_thursday['Todo'].values[i])
+                for i in range(0,len(to_do_thursday.index)):
+                    if button_dayThur[i]:
+                        to_do_thursday= to_do_thursday.drop(i)
+                        to_do_thursday.to_csv('thursday.csv',index=None)
+                
+        st.dataframe(to_do_thursday)
+    with col5:
+        st.markdown("### Friday 🍦")
+        st.markdown("""---""")
+        st.write("To do |",len(to_do_friday.index)," tasks")
+
+        with st.expander("Add task"):
+                text_input5 = st.text_input(
+                        "Enter your friday task here 👇",
+                        label_visibility=st.session_state.visibility,
+                        disabled=st.session_state.disabled
+                    )
+                if text_input5:
+                    to_do_friday = pd.read_csv('friday.csv',index_col=None)
+                    st.write("You entered: ", text_input5)
+                    # to_do_monday.loc[len(to_do_monday.index)] = [text_input]
+                    append = {'Todo':text_input5}
+                    to_do_friday = to_do_friday.append(append,ignore_index=True)
+                    to_do_friday.to_csv('friday.csv',index=None)
+                st.write("Remember to delete the placeholder before delete task")
+
+        with st.expander("Remove task"):
+                st.markdown("##### Double-Click the task to remove it from the to do list")
+                button_dayFri = [None] * len(to_do_friday.index)
+                for i in range(0,len(to_do_friday.index)):
+                    button_dayFri[i] = st.button("Tasks: " +str(i)+ " "+ to_do_friday['Todo'].values[i])
+                for i in range(0,len(to_do_friday.index)):
+                    if button_dayFri[i]:
+                        to_do_friday= to_do_friday.drop(i)
+                        to_do_friday.to_csv('friday.csv',index=None)
+                
+        st.dataframe(to_do_friday)
+elif choice == "Routes Planning":
+    col1,col2,col3,col4,col5 = st.columns(5)
+    if os.path.exists('./monday.csv'): 
+        monday_task = pd.read_csv('monday.csv', index_col=None)
+    if os.path.exists('./tuesday.csv'): 
+        tuesday_task = pd.read_csv('tuesday.csv', index_col=None)
+    if os.path.exists('./wednesday.csv'): 
+        wednesday_task = pd.read_csv('wednesday.csv', index_col=None)
+    if os.path.exists('./thursday.csv'): 
+        thursday_task = pd.read_csv('thursday.csv', index_col=None)
+    if os.path.exists('./friday.csv'): 
+        friday_task = pd.read_csv('friday.csv', index_col=None)
+    with col1:
+        st.markdown("### Monday 🐷")
+        st.markdown("""---""")
+        graph1 = graphviz.Digraph()
+
+        for i in range(1,len(monday_task)):
+            graph1.edge(monday_task['Todo'].values[i-1],monday_task['Todo'].values[i])
+
+        st.graphviz_chart(graph1)
+    with col2:
+        st.markdown("### Tuesday 🐑")
+        st.markdown("""---""")
+        graph2 = graphviz.Digraph()
+
+        for i in range(1,len(tuesday_task)):
+            graph2.edge(tuesday_task['Todo'].values[i-1],tuesday_task['Todo'].values[i])
+
+        st.graphviz_chart(graph2)
+    with col3:
+        st.markdown("### Wednesday 🍮")
+        st.markdown("""---""")
+        graph3 = graphviz.Digraph()
+
+        for i in range(1,len(wednesday_task)):
+            graph3.edge(wednesday_task['Todo'].values[i-1],wednesday_task['Todo'].values[i])
+
+        st.graphviz_chart(graph3)
+    with col4:
+        st.markdown("### Thursday 🦄")
+        st.markdown("""---""")
+        graph4 = graphviz.Digraph()
+
+        for i in range(1,len(thursday_task)):
+            graph4.edge(thursday_task['Todo'].values[i-1],thursday_task['Todo'].values[i])
+
+        st.graphviz_chart(graph4)
+    with col5:
+        st.markdown("### Friday 🍦")
+        st.markdown("""---""")
+        graph5 = graphviz.Digraph()
+
+        for i in range(1,len(friday_task)):
+            graph5.edge(friday_task['Todo'].values[i-1],friday_task['Todo'].values[i])
+
+        st.graphviz_chart(graph5)

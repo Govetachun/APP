@@ -185,3 +185,20 @@ def MCP_assigning():
         # write multiple rows
         writer.writerows(data)
 MCP_assigning()
+import pandas as pd
+def create_dataframe(days):
+    dict = {'Todo':[]}
+    df_day = pd.DataFrame(dict)
+    df_day.to_csv(days+'.csv',index=None)
+    return df_day
+    
+monday = 'monday'
+tuesday = 'tuesday'
+wednesday = 'wednesday'
+thursday = 'thursday'
+friday = 'friday'
+to_do_monday = create_dataframe(monday)
+to_do_tuesday = create_dataframe(tuesday)
+to_do_wednesday= create_dataframe(wednesday)
+to_do_thursday = create_dataframe(thursday)
+to_do_friday = create_dataframe(friday)
