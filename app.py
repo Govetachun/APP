@@ -296,7 +296,7 @@ elif choice == "Calendar":
                         vehicle1 += text_input[j]
                     
                     for k in range(0,len(vehicle_assigning)):
-                        if vehicle1 == vehicle_assigning['Vehicle ID'].values[k]:
+                        if vehicle_assigning['Vehicle ID'].values[k] in vehicle1:
                             collector1 += vehicle_assigning['Collector'].values[k]
                     #t.write(text_input[i],text_input[j], text_input[k])
                     append = {'Todo':to_do1,'Vehicle':vehicle1,'Collectors':collector1}
@@ -350,7 +350,7 @@ elif choice == "Calendar":
                         vehicle2 += text_input2[j]
                     
                     for k in range(0,len(vehicle_assigning)):
-                        if vehicle2 == vehicle_assigning['Vehicle ID'].values[k]:
+                        if vehicle_assigning['Vehicle ID'].values[k] in vehicle2:
                             collector2 += vehicle_assigning['Collector'].values[k]
                     #t.write(text_input[i],text_input[j], text_input[k])
                     append = {'Todo':to_do2,'Vehicle':vehicle2,'Collectors':collector2}
@@ -404,7 +404,7 @@ elif choice == "Calendar":
                         vehicle3 += text_input3[j]
                     
                     for k in range(0,len(vehicle_assigning)):
-                        if vehicle3 == vehicle_assigning['Vehicle ID'].values[k]:
+                        if vehicle_assigning['Vehicle ID'].values[k] in vehicle3:
                             collector3 += vehicle_assigning['Collector'].values[k]
                     #t.write(text_input[i],text_input[j], text_input[k])
                     append = {'Todo':to_do3,'Vehicle':vehicle3,'Collectors':collector3}
@@ -458,7 +458,7 @@ elif choice == "Calendar":
                         vehicle4 += text_input4[j]
                     
                     for k in range(0,len(vehicle_assigning)):
-                        if vehicle4 == vehicle_assigning['Vehicle ID'].values[k]:
+                        if vehicle_assigning['Vehicle ID'].values[k] in vehicle4:
                             collector4 += vehicle_assigning['Collector'].values[k]
                     #t.write(text_input[i],text_input[j], text_input[k])
                     append = {'Todo':to_do4,'Vehicle':vehicle4,'Collectors':collector4}
@@ -512,7 +512,7 @@ elif choice == "Calendar":
                         vehicle5 += text_input5[j]
                     
                     for k in range(0,len(vehicle_assigning)):
-                        if vehicle5 == vehicle_assigning['Vehicle ID'].values[k]:
+                        if vehicle_assigning['Vehicle ID'].values[k] in vehicle5 :
                             collector5 += vehicle_assigning['Collector'].values[k]
                     #t.write(text_input[i],text_input[j], text_input[k])
                     append = {'Todo':to_do5,'Vehicle':vehicle5,'Collectors':collector5}
