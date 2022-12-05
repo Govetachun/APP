@@ -144,14 +144,14 @@ vehicle()
 def vehicle_assigning():
     header = [ 'Vehicle ID','Collector']
     data = [
-        [ '#1234','Nguyen Van A'],
+        [ '#0000','Nguyen Van A'],
         [ '#0001','Nguyen Van B'],
-        [ '#0004', 'Nguyen Van C'],
-        [ '#2345', 'Nguyen Van D'],
-        [ '#3456', 'Nguyen Van E'],
-        [ '#4567', 'Nguyen Van F'],
-        [ '#5678', 'Nguyen Van G'],
-        [ '#9787', 'Nguyen Van H'],
+        [ '#0002', 'Nguyen Van C'],
+        [ '#0003', 'Nguyen Van D'],
+        [ '#0004', 'Nguyen Van E'],
+        [ '#0005', 'Nguyen Van F'],
+        [ '#0006', 'Nguyen Van G'],
+        [ '#0007', 'Nguyen Van H'],
     ]
 
     with open('vehicle_assigning.csv', 'w', encoding='UTF8', newline='') as f:
@@ -187,7 +187,9 @@ def MCP_assigning():
 MCP_assigning()
 import pandas as pd
 def create_dataframe(days):
-    dict = {'Todo':[]}
+    dict = {'Todo':[],
+            'Vehicle':[],
+            'Collectors':[]}
     df_day = pd.DataFrame(dict)
     df_day.to_csv(days+'.csv',index=None)
     return df_day

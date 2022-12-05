@@ -278,9 +278,32 @@ elif choice == "Calendar":
                     to_do_monday = pd.read_csv('monday.csv',index_col=None)
                     st.write("You entered: ", text_input)
                     # to_do_monday.loc[len(to_do_monday.index)] = [text_input]
-                    append = {'Todo':text_input}
+                    to_do1 = ''
+                    vehicle1 = ''
+                    collector1 = ''
+                    i = 0
+                    j = 0
+                    k = 0  
+                    for i in range(0,len(text_input)):
+                        if text_input[i] == ',':
+                            break
+                        to_do1+= text_input[i]
+                    
+                    for j in range(i+1,len(text_input)):
+                        
+                        if text_input[j] == ',':
+                            break
+                        vehicle1 += text_input[j]
+                    
+                    for k in range(0,len(vehicle_assigning)):
+                        if vehicle1 == vehicle_assigning['Vehicle ID'].values[k]:
+                            collector1 += vehicle_assigning['Collector'].values[k]
+                    #t.write(text_input[i],text_input[j], text_input[k])
+                    append = {'Todo':to_do1,'Vehicle':vehicle1,'Collectors':collector1}
                     to_do_monday = to_do_monday.append(append,ignore_index=True)
                     to_do_monday.to_csv('monday.csv',index=None)
+                st.write("Fomula to input task: Name of MCP,ID of Vehicle (from #0000 to #0007)")
+                st.write("Ex: Go to MCP1,#0000")
                 st.write("Remember to delete the placeholder before delete task")
 
         with st.expander("Remove task"):
@@ -300,18 +323,41 @@ elif choice == "Calendar":
         st.write("To do |",len(to_do_tuesday.index)," tasks")
 
         with st.expander("Add task"):
-                text_input3 = st.text_input(
+                text_input2 = st.text_input(
                         "Enter your Tuesday task here 👇",
                         label_visibility=st.session_state.visibility,
                         disabled=st.session_state.disabled
                     )
-                if text_input3:
+                if text_input2:
                     to_do_tuesday = pd.read_csv('tuesday.csv',index_col=None)
-                    st.write("You entered: ", text_input3)
+                    st.write("You entered: ", text_input2)
                     # to_do_monday.loc[len(to_do_monday.index)] = [text_input]
-                    append = {'Todo':text_input3}
+                    to_do2 = ''
+                    vehicle2 = ''
+                    collector2 = ''
+                    i = 0
+                    j = 0
+                    k = 0  
+                    for i in range(0,len(text_input2)):
+                        if text_input2[i] == ',':
+                            break
+                        to_do2+= text_input2[i]
+                    
+                    for j in range(i+1,len(text_input2)):
+                        
+                        if text_input2[j] == ',':
+                            break
+                        vehicle2 += text_input2[j]
+                    
+                    for k in range(0,len(vehicle_assigning)):
+                        if vehicle2 == vehicle_assigning['Vehicle ID'].values[k]:
+                            collector2 += vehicle_assigning['Collector'].values[k]
+                    #t.write(text_input[i],text_input[j], text_input[k])
+                    append = {'Todo':to_do2,'Vehicle':vehicle2,'Collectors':collector2}
                     to_do_tuesday = to_do_tuesday.append(append,ignore_index=True)
                     to_do_tuesday.to_csv('tuesday.csv',index=None)
+                st.write("Fomula to input task: Name of MCP,ID of Vehicle (from #0000 to #0007)")
+                st.write("Ex: Go to MCP1,#0000")
                 st.write("Remember to delete the placeholder before delete task")
 
         with st.expander("Remove task"):
@@ -340,9 +386,32 @@ elif choice == "Calendar":
                     to_do_wednesday = pd.read_csv('wednesday.csv',index_col=None)
                     st.write("You entered: ", text_input3)
                     # to_do_monday.loc[len(to_do_monday.index)] = [text_input]
-                    append = {'Todo':text_input3}
+                    to_do3 = ''
+                    vehicle3 = ''
+                    collector3 = ''
+                    i = 0
+                    j = 0
+                    k = 0  
+                    for i in range(0,len(text_input3)):
+                        if text_input3[i] == ',':
+                            break
+                        to_do3+= text_input3[i]
+                    
+                    for j in range(i+1,len(text_input3)):
+                        
+                        if text_input3[j] == ',':
+                            break
+                        vehicle3 += text_input3[j]
+                    
+                    for k in range(0,len(vehicle_assigning)):
+                        if vehicle3 == vehicle_assigning['Vehicle ID'].values[k]:
+                            collector3 += vehicle_assigning['Collector'].values[k]
+                    #t.write(text_input[i],text_input[j], text_input[k])
+                    append = {'Todo':to_do3,'Vehicle':vehicle3,'Collectors':collector3}
                     to_do_wednesday = to_do_wednesday.append(append,ignore_index=True)
                     to_do_wednesday.to_csv('wednesday.csv',index=None)
+                st.write("Fomula to input task: Name of MCP,ID of Vehicle (from #0000 to #0007)")
+                st.write("Ex: Go to MCP1,#0000")
                 st.write("Remember to delete the placeholder before delete task")
 
         with st.expander("Remove task"):
@@ -371,9 +440,32 @@ elif choice == "Calendar":
                     to_do_thursday = pd.read_csv('thursday.csv',index_col=None)
                     st.write("You entered: ", text_input4)
                     # to_do_monday.loc[len(to_do_monday.index)] = [text_input]
-                    append = {'Todo':text_input4}
+                    to_do4 = ''
+                    vehicle4 = ''
+                    collector4 = ''
+                    i = 0
+                    j = 0
+                    k = 0  
+                    for i in range(0,len(text_input4)):
+                        if text_input4[i] == ',':
+                            break
+                        to_do4+= text_input4[i]
+                    
+                    for j in range(i+1,len(text_input4)):
+                        
+                        if text_input4[j] == ',':
+                            break
+                        vehicle4 += text_input4[j]
+                    
+                    for k in range(0,len(vehicle_assigning)):
+                        if vehicle4 == vehicle_assigning['Vehicle ID'].values[k]:
+                            collector4 += vehicle_assigning['Collector'].values[k]
+                    #t.write(text_input[i],text_input[j], text_input[k])
+                    append = {'Todo':to_do4,'Vehicle':vehicle4,'Collectors':collector4}
                     to_do_thursday = to_do_thursday.append(append,ignore_index=True)
                     to_do_thursday.to_csv('thursday.csv',index=None)
+                st.write("Fomula to input task: Name of MCP,ID of Vehicle (from #0000 to #0007)")
+                st.write("Ex: Go to MCP1,#0000")
                 st.write("Remember to delete the placeholder before delete task")
 
         with st.expander("Remove task"):
@@ -402,9 +494,32 @@ elif choice == "Calendar":
                     to_do_friday = pd.read_csv('friday.csv',index_col=None)
                     st.write("You entered: ", text_input5)
                     # to_do_monday.loc[len(to_do_monday.index)] = [text_input]
-                    append = {'Todo':text_input5}
+                    to_do5 = ''
+                    vehicle5 = ''
+                    collector5 = ''
+                    i = 0
+                    j = 0
+                    k = 0  
+                    for i in range(0,len(text_input5)):
+                        if text_input5[i] == ',':
+                            break
+                        to_do5+= text_input5[i]
+                    
+                    for j in range(i+1,len(text_input5)):
+                        
+                        if text_input5[j] == ',':
+                            break
+                        vehicle5 += text_input5[j]
+                    
+                    for k in range(0,len(vehicle_assigning)):
+                        if vehicle5 == vehicle_assigning['Vehicle ID'].values[k]:
+                            collector5 += vehicle_assigning['Collector'].values[k]
+                    #t.write(text_input[i],text_input[j], text_input[k])
+                    append = {'Todo':to_do5,'Vehicle':vehicle5,'Collectors':collector5}
                     to_do_friday = to_do_friday.append(append,ignore_index=True)
                     to_do_friday.to_csv('friday.csv',index=None)
+                st.write("Fomula to input task: Name of MCP,ID of Vehicle (from #0000 to #0007)")
+                st.write("Ex: Go to MCP1,#0000")
                 st.write("Remember to delete the placeholder before delete task")
 
         with st.expander("Remove task"):
