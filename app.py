@@ -11,6 +11,8 @@ import graphviz
 import pickle
 from pathlib import Path
 import streamlit_authenticator as stauth
+from streamlit_option_menu import option_menu
+
 st.set_page_config(
 page_title = "Urban waste collection aid - UWC 2.0",
 page_icon = "Active",
@@ -33,14 +35,20 @@ for un, name, pw in zip(usernames, names, hashed_passwords):
     credentials["usernames"].update({un:user_dict})
 authenticator = stauth.Authenticate(credentials,"sales_dashboard","abcdef", cookie_expiry_days=30)
 
-name,authentication_status ,username= authenticator.login("Login","main")
+pic1,signin = st.columns((6,4))
 
-if authentication_status == False:
-    st.error("Username/password is incorrect")
+with signin:
+    name,authentication_status ,username= authenticator.login("Login","main")
 
-if authentication_status == None:
-    st.warning("Please enter your username and password")
+    if authentication_status == False:
+        st.error("Username/password is incorrect")
 
+    if authentication_status == None:
+        st.warning("Please enter your username and password")
+with pic1:
+    if authentication_status != True:
+        st.title("Urban waste collection aid - UWC 2.0")
+        st.image("https://i.pinimg.com/originals/89/77/1c/89771c920c59c679a63a115dea5f9010.jpg")
 if authentication_status == True:
     if os.path.exists('./dataset.csv'): 
         df = pd.read_csv('dataset.csv', index_col=None)
@@ -62,12 +70,15 @@ if authentication_status == True:
         MCP_assigning = pd.read_csv('MCP_assigning.csv', index_col=None)
 
     with st.sidebar: 
-        authenticator.logout("Logout","sidebar")
+        
         st.sidebar.title(f"Welcome {name}")
+        choice = option_menu(menu_title = None, 
+                            options = ["Dashboard","Calendar", "Vehicles","MCP","Tasks Assignment","Routes Planning"],
+                            default_index = 0,)
         st.image("https://www.onepointltd.com/wp-content/uploads/2020/03/inno2.png")
         st.title("Urban waste collection aid - UWC 2.0")
-        choice = st.radio("Navigation", ["Dashboard","Calendar", "Vehicles","MCP","Tasks Assignment","Routes Planning"])
-        st.info("UWC 2.0")
+        authenticator.logout("Logout","sidebar")
+        
 
     # if choice == "Upload":
     #     st.title("Upload Your Dataset")
