@@ -125,6 +125,8 @@ if authentication_status == True:
                 st.markdown("### Assignment")
                 fig5_1 = ff.create_table(MCP_assigning)
                 st.write(fig5_1)
+            with a:
+                pass
             with column5_2:
                 st.markdown("### Vehicle Assignment")
                 fig5_2 = ff.create_table(vehicle_assigning)
