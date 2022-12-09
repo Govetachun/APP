@@ -94,7 +94,7 @@ if authentication_status == True:
         # Pie chart, where the slices will be ordered and plotted counter-clockwise:
         with col1:
             st.markdown("### Current status of garbage trucks in Morning")
-            column1,column2,column3=st.columns(3)
+            column1,column2,column3=st.columns((3,3,3))
             with column1:
                 st.write('The vehicles status available')
                 colors = ['gold', 'mediumturquoise', 'darkorange']
@@ -114,7 +114,7 @@ if authentication_status == True:
                 st.write(fig2)
 
 
-            column4,column5_1,column5_2= st.columns((3,4,4))
+            column4,column5_1,column5_2= st.columns((3,4,3))
             with column4:
                 st.markdown("### Vehicle status")
 
@@ -152,7 +152,7 @@ if authentication_status == True:
                 st.write(fig2)
 
 
-            column9,column10_1,column10_2= st.columns((3,4,4))
+            column9,column10_1,column10_2= st.columns((3,4,3))
             with column9:
                 st.markdown("### Vehicle status")
 
@@ -189,7 +189,7 @@ if authentication_status == True:
                 st.write(fig2)
 
 
-            column14,column15_1,column15_2= st.columns((3,4,4))
+            column14,column15_1,column15_2= st.columns((3,4,3))
             with column14:
                 st.markdown("### Vehicle status")
 
