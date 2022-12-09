@@ -6,3 +6,4 @@ numpy
 graphviz
 plotly
 streamlit-authenticator
+streamlit-option-menu
