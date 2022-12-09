@@ -73,7 +73,7 @@ if authentication_status == True:
         
         st.sidebar.title(f"Welcome {name}")
         choice = option_menu(menu_title = None, 
-                            options = ["Dashboard","Calendar", "Vehicles","MCP","Tasks Assignment","Routes Planning"],
+                            options = ["Dashboard","Calendar", "Vehicles","MCP","Assignment","Routes Planning"],
                             default_index = 0,)
         st.image("https://www.onepointltd.com/wp-content/uploads/2020/03/inno2.png")
         st.title("Urban waste collection aid - UWC 2.0")
@@ -114,17 +114,21 @@ if authentication_status == True:
                 st.write(fig2)
 
 
-            column4,column5= st.columns((3,7))
+            column4,column5_1,column5_2= st.columns((3,4,4))
             with column4:
                 st.markdown("### Vehicle status")
 
                 def highlight_survived(s):
                     return ['background-color: green']*len(s) if s.Available else ['background-color: red']*len(s)
                 st.dataframe(vehicle.style.apply(highlight_survived, axis=1))
-            with column5:
+            with column5_1:
                 st.markdown("### Assignment")
-                fig5 = ff.create_table(wsh)
-                st.write(fig5)
+                fig5_1 = ff.create_table(MCP_assigning)
+                st.write(fig5_1)
+            with column5_2:
+                st.markdown("### Vehicle Assignment")
+                fig5_2 = ff.create_table(vehicle_assigning)
+                st.write(fig5_2)
                 
         with col2:
             st.markdown("### Current status of garbage trucks in Afternoon")
@@ -148,17 +152,21 @@ if authentication_status == True:
                 st.write(fig2)
 
 
-            column9,column10= st.columns((3,7))
+            column9,column10_1,column10_2= st.columns((3,4,4))
             with column9:
                 st.markdown("### Vehicle status")
 
                 def highlight_survived(s):
                     return ['background-color: green']*len(s) if s.Available else ['background-color: red']*len(s)
                 st.dataframe(vehicle.style.apply(highlight_survived, axis=1))
-            with column10:
+            with column10_1:
                 st.markdown("### Assignment")
-                fig5 = ff.create_table(wsh)
-                st.write(fig5)
+                fig5_1 = ff.create_table(MCP_assigning)
+                st.write(fig5_1)
+            with column10_2:
+                st.markdown("### Vehicle Assignment")
+                fig5_2 = ff.create_table(vehicle_assigning)
+                st.write(fig5_2)
         with col3:
             st.markdown("### Current status of garbage trucks in Evening")
             column11,column12,column13=st.columns(3)
@@ -181,17 +189,21 @@ if authentication_status == True:
                 st.write(fig2)
 
 
-            column14,column15= st.columns((3,7))
+            column14,column15_1,column15_2= st.columns((3,4,4))
             with column14:
                 st.markdown("### Vehicle status")
 
                 def highlight_survived(s):
                     return ['background-color: green']*len(s) if s.Available else ['background-color: red']*len(s)
                 st.dataframe(vehicle.style.apply(highlight_survived, axis=1))
-            with column15:
+            with column15_1:
                 st.markdown("### Assignment")
-                fig5 = ff.create_table(wsh)
-                st.write(fig5)
+                fig5_1 = ff.create_table(MCP_assigning)
+                st.write(fig5_1)
+            with column15_2:
+                st.markdown("### Vehicle Assignment")
+                fig5_2 = ff.create_table(vehicle_assigning)
+                st.write(fig5_2)
         st.title("Route information")
         col4, col5, col6 ,col7= st.columns(4)
         with col4:
@@ -282,19 +294,19 @@ if authentication_status == True:
             st.markdown('#####  34 Cong Hoa')
             age6 = st.slider('Capacity', 0, 100, 12)
             st.write( age6, '% of the capacity')
-    elif choice == "Tasks Assignment":
+    elif choice == "Assignment":
 
         
-        col1 ,col2,col3 = st.columns(3)
+        col1 ,col2 = st.columns(2)
         with col1:
-            st.markdown('### Vehicle assigning')
-            st.dataframe(vehicle_assigning)
+                st.markdown("### Assignment")
+                fig5_1 = ff.create_table(MCP_assigning)
+                st.write(fig5_1)
         with col2:
-            st.markdown('### MCPs assigning')
-            st.dataframe(MCP_assigning)
+                st.markdown("### Vehicle Assignment")
+                fig5_2 = ff.create_table(vehicle_assigning)
+                st.write(fig5_2)
     elif choice == "Calendar":
-
-
         to_do_monday = pd.read_csv('monday.csv',index_col=None)
         to_do_tuesday = pd.read_csv('tuesday.csv',index_col=None)
         to_do_wednesday = pd.read_csv('wednesday.csv',index_col=None)
@@ -572,8 +584,7 @@ if authentication_status == True:
                     for i in range(0,len(to_do_friday.index)):
                         if button_dayFri[i]:
                             to_do_friday= to_do_friday.drop(i)
-                            to_do_friday.to_csv('friday.csv',index=None)
-                    
+                            to_do_friday.to_csv('friday.csv',index=None)    
             st.dataframe(to_do_friday)
     elif choice == "Routes Planning":
         col1,col2,col3,col4,col5 = st.columns(5)
