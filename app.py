@@ -114,7 +114,7 @@ if authentication_status == True:
                 st.write(fig2)
 
 
-            column4,column5_1,column5_2= st.columns((3,3,3))
+            column4,column5_1,a,column5_2= st.columns((3,3,1,3))
             with column4:
                 st.markdown("### Vehicle status")
 
@@ -152,7 +152,7 @@ if authentication_status == True:
                 st.write(fig2)
 
 
-            column9,column10_1,column10_2= st.columns((3,3,3))
+            column9,column10_1,a,column10_2= st.columns((3,3,1,3))
             with column9:
                 st.markdown("### Vehicle status")
 
@@ -189,7 +189,7 @@ if authentication_status == True:
                 st.write(fig2)
 
 
-            column14,column15_1,column15_2= st.columns((3,3,3))
+            column14,column15_1,a,column15_2= st.columns((3,3,1,3))
             with column14:
                 st.markdown("### Vehicle status")
 
