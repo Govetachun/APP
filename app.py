@@ -297,17 +297,89 @@ if authentication_status == True:
             age6 = st.slider('Capacity', 0, 100, 12)
             st.write( age6, '% of the capacity')
     elif choice == "Assignment":
+        placeholder = st.empty()
 
-        
+        if "visibility" not in st.session_state:
+            st.session_state.visibility = "visible"
+            st.session_state.disabled = False
         col1 ,col2 = st.columns(2)
         with col1:
                 st.markdown("### Assignment")
                 fig5_1 = ff.create_table(MCP_assigning)
                 st.write(fig5_1)
+                with st.expander("Remove MCP task:"):
+                    text_input = st.text_input(
+                        "Enter the MCP you want to remove 👇",
+                        label_visibility=st.session_state.visibility,
+                        disabled=st.session_state.disabled,
+                    )
+
+                    if text_input:
+                        st.write("You entered: ", text_input)
+                        MCP_assigning = MCP_assigning[MCP_assigning['MCP ID'].str.contains(text_input) == False]
+                        MCP_assigning.to_csv('MCP_assigning.csv',index=False)
+                
+                with st.expander("Add MCP task:"):
+                    MCP_ID = st.text_input(
+                        "Enter the MCP you want to add 👇",
+                        label_visibility=st.session_state.visibility,
+                        disabled=st.session_state.disabled,
+                    )
+
+                    if MCP_ID:
+                        st.write("You entered: ", MCP_ID)
+                        MCP_Janitor1 = st.text_input(
+                        "Enter the Janitor1 you want to add 👇",
+                        label_visibility=st.session_state.visibility,
+                        disabled=st.session_state.disabled,
+                        )
+                        if MCP_Janitor1:
+                            st.write("You entered: ", MCP_Janitor1)
+                            MCP_Janitor2 = st.text_input(
+                            "Enter the Janitor2 you want to add 👇",
+                            label_visibility=st.session_state.visibility,
+                            disabled=st.session_state.disabled,
+                            )
+                            if MCP_Janitor2:
+                                st.write("You entered: ", MCP_Janitor2)
+                                MCP_assigning = MCP_assigning.append({'MCP ID': MCP_ID,'Janitor 1':MCP_Janitor1,'Janitor 2':MCP_Janitor2}, ignore_index=True)
+                                MCP_assigning.to_csv('MCP_assigning.csv',index=False)
+                                placeholder.empty()
         with col2:
                 st.markdown("### Vehicle Assignment")
                 fig5_2 = ff.create_table(vehicle_assigning)
                 st.write(fig5_2)
+                with st.expander("Remove vehicle task:"):
+                    text_input2 = st.text_input(
+                        "Enter the vehicle you want to remove 👇",
+                        label_visibility=st.session_state.visibility,
+                        disabled=st.session_state.disabled,
+                    )
+
+                    if text_input2:
+                        st.write("You entered: ", text_input2)
+                        vehicle_assigning = vehicle_assigning[vehicle_assigning['Vehicle ID'].str.contains(text_input2) == False]
+                        vehicle_assigning.to_csv('vehicle_assigning.csv',index=False)
+                
+                with st.expander("Add vehicle task:"):
+                    vehicle_ID = st.text_input(
+                        "Enter the vehicle you want to add 👇",
+                        label_visibility=st.session_state.visibility,
+                        disabled=st.session_state.disabled,
+                    )
+
+                    if vehicle_ID:
+                        st.write("You entered: ", vehicle_ID)
+                        collector  = st.text_input(
+                        "Enter the Janitor1 you want to add 👇",
+                        label_visibility=st.session_state.visibility,
+                        disabled=st.session_state.disabled,
+                        )
+                        if collector :
+                                st.write("You entered: ", collector)
+                                vehicle_assigning = vehicle_assigning.append({'Vehicle ID': vehicle_ID,'Collector':collector}, ignore_index=True)
+                                vehicle_assigning.to_csv('vehicle_assigning.csv',index=False)
+                                placeholder.empty()
     elif choice == "Calendar":
         to_do_monday = pd.read_csv('monday.csv',index_col=None)
         to_do_tuesday = pd.read_csv('tuesday.csv',index_col=None)
