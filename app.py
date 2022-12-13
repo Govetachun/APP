@@ -73,11 +73,11 @@ if authentication_status == True:
         
         st.sidebar.title(f"Welcome {name}")
         choice = option_menu(menu_title = None, 
-                            options = ["Dashboard","Calendar", "Vehicles","MCP","Assignment","Routes Planning","Chat"],
+                            options = ["Dashboard","Calendar", "Vehicles","MCP","Assignment","Routes Planning","Chat","Working status now","Logout"],
                             default_index = 0,)
         st.image("https://www.onepointltd.com/wp-content/uploads/2020/03/inno2.png")
         st.title("Urban waste collection aid - UWC 2.0")
-        authenticator.logout("Logout","sidebar")
+        
         
 
     # if choice == "Upload":
@@ -629,6 +629,27 @@ if authentication_status == True:
         st.markdown("""---""")  
         st.markdown("### Contact me Tran Trung Nguyen via: https://www.facebook.com/trungnguyen.42")
         st.markdown("### Contact me Mai Minh Nhat via: https://www.facebook.com/zucczucczucc16.8")
-        st.error("Do you really, really, wanna do this?")
-        if st.button("Yes I'm ready to rumble"):
-            run_expensive_function()
+    elif choice == "Working status now":
+        st.markdown("### Working status now")
+        st.markdown("""---""")
+        
+        # st.markdown("### Mai Minh Nhat")
+        col1, col2, col3 = st.columns([3,6,1])
+
+        with col1:
+            st.write("")
+
+        with col2:
+            st.markdown("### Thursday 🍦, 15/12/2022")
+            st.image("status.png", width=800)
+
+        with col3:
+            st.write("")
+    elif choice == "Logout":
+        st.markdown("### Logout")
+        st.markdown("""---""")
+        st.markdown("### Thank you for using our app")
+        st.markdown("### See you again")
+        st.markdown("### Bye")
+        authenticator.logout("Logout")
+
