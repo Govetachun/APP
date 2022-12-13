@@ -189,7 +189,8 @@ import pandas as pd
 def create_dataframe(days):
     dict = {'Todo':[],
             'Vehicle':[],
-            'Collectors':[]}
+            'Collectors':[],
+            'Time':[],}
     df_day = pd.DataFrame(dict)
     df_day.to_csv(days+'.csv',index=None)
     return df_day
